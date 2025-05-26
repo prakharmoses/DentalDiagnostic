@@ -1,6 +1,7 @@
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv
+import datetime
 
 load_dotenv()
 
@@ -40,8 +41,8 @@ def generate_diagnostic_report(detection_data: dict, patient_metadata: dict = No
         prompt += f"{i}. {class_name} with {conf}% confidence at (x={x}, y={y}, width={w}, height={h})\n"
 
     prompt += "\nThe detections are from roboflow model. Please write a clear and concise dental diagnostic report in the following format:\n"
-    prompt += """Dental Radiographic Report
-                Date of Radiograph: [Date of generation]
+    prompt += f"""Dental Radiographic Report
+                Date of Radiograph: {datetime.datetime.now().strftime('%Y-%m-%d')}
                 Findings:
                 [whatever the finding are in detail]
                 Recommendation:
