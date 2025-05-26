@@ -6,3 +6,7 @@ requests
 openai
 python-multipart
 cv2
+python-dotenv
+google-generativeai
+numpy
+Pillow

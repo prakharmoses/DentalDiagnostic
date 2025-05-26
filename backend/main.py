@@ -29,6 +29,10 @@ app.mount("/outputs", StaticFiles(directory=OUTPUT_DIR), name="outputs")
 async def convert_image(file: UploadFile = File(...)):
     filename = f"{uuid.uuid4()}.png"
     dicom_bytes = await file.read()
+
+    if not OUTPUT_DIR:
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+    
     png_path = os.path.join(OUTPUT_DIR, filename)
     if not dicom_bytes:
         return JSONResponse(content={"error": "No DICOM file provided."}, status_code=400)
@@ -71,6 +75,5 @@ async def generate_diagnostics(request: dict):
     return DiagnosticResponse(
         image_id=file_id,
         png_image_path=png_path.replace("\\", "/"),
-        detections=detections,
         report=report
     )
