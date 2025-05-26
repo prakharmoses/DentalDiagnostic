@@ -1,0 +1,15 @@
+# Node.js
+frontend/node_modules/
+
+# Python virtualenv
+backend/dobbeai/
+
+# Python stuff
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Other common ignores
+.env
+*.log
