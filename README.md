@@ -120,6 +120,12 @@ This is a single page application designed for you to generate the diagnostic re
 
    Click on Clear Upload to fresh start for next X-ray image.
 
+The usage of the tool with the help of a video is shown below.
+<video width="640" controls>
+  <source src="DICOMdiagnostic.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## <div id='architecture'>🏰 Architecture</div>
 
   ### Frontend (React)
