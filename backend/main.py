@@ -19,26 +19,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-OUTPUT_DIR = "outputs"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Serve static files (converted images)
-app.mount("/outputs", StaticFiles(directory=OUTPUT_DIR), name="outputs")
+app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
 
 @app.post("/convertImage", response_model = ImageUploadResponse)
 async def convert_image(file: UploadFile = File(...)):
     filename = f"{uuid.uuid4()}.png"
     dicom_bytes = await file.read()
 
-    if not OUTPUT_DIR:
+    if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR, exist_ok=True)
     
     png_path = os.path.join(OUTPUT_DIR, filename)
+    
     if not dicom_bytes:
         return JSONResponse(content={"error": "No DICOM file provided."}, status_code=400)
 
     # Convert DICOM to PNG
     convert_dicom_to_png(dicom_bytes, output_path=png_path)
+
+    # Making the path correct for frontend access
+    png_path = png_path.replace("\\", "/")
+    parts = png_path.split('outputs/')
+    if len(parts) > 1:
+        png_path = os.path.join('outputs', parts[-1])
 
     if png_path:
         return JSONResponse(
@@ -71,6 +79,12 @@ async def generate_diagnostics(request: dict):
 
     # Generate diagnostic report using OpenAI
     report = generate_diagnostic_report(detections)
+
+    # Making the path correct for frontend access
+    png_path = png_path.replace("\\", "/")
+    parts = png_path.split('outputs/')
+    if len(parts) > 1:
+        png_path = os.path.join('outputs', parts[-1])
 
     return DiagnosticResponse(
         image_id=file_id,

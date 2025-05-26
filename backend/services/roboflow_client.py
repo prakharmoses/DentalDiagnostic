@@ -1,6 +1,10 @@
 import requests
 import os
 import cv2
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY")  # set this in your environment
 ROBOFLOW_MODEL = "adr/6"              # Replace with your Roboflow model path

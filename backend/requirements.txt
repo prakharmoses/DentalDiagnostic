@@ -1,12 +1,13 @@
 fastapi
 uvicorn
 pydicom
-matplotlib
 requests
-openai
 python-multipart
-cv2
+opencv-python
 python-dotenv
 google-generativeai
 numpy
 Pillow
+pylibjpeg
+pylibjpeg-libjpeg
+pylibjpeg-openjpeg
